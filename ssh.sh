@@ -11,7 +11,7 @@ KUBE_PATH=/etc/kubernetes
 # sed -i s/${ETCD_NAME}/$ETCD/
 # ~/.kube/config
 # 设置集群参数
-ssh root@${ip} mkdir -p ${KUBE_PATH}
+ssh root@${ip} mkdir -p ${KUBE_PATH}/log
 scp -r $BASE_PATH/master/* root@${ip}:${KUBE_PATH}/
 
 #kubectl config

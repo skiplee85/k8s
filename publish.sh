@@ -2,11 +2,11 @@
 BASE_PATH=$(cd `dirname $0`; pwd)
 # Master servers, install etcd kube-apiserver kube-controller-manager kube-scheduler
 MASTERS=(
-  "k8s-master-1:192.168.10.228"
-  "k8s-master-2:192.168.10.242"
-  "k8s-master-3:192.168.10.243"
+  "master-1:192.168.3.54"
+  "master-2:192.168.3.55"
+  "master-3:192.168.3.56"
 )
-HA_PROXY_IP=192.168.10.228
+HA_PROXY_IP=192.168.3.54
 SERVERS=""
 ETCD_SERVERS=""
 CLUSTER_LIST=""
@@ -30,6 +30,8 @@ do
 done
 
 chmod +x ${BASE_PATH}/*.sh
+chmod +x ${BASE_PATH}/*/*.sh
+chmod +x ${BASE_PATH}/*/*/*.sh
 
 ${BASE_PATH}/build-all.sh ${HA_PROXY_IP} ${SERVERS}
 

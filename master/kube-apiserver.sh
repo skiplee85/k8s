@@ -1,5 +1,5 @@
 #!/bin/sh
-kube-apiserver \
+/opt/kubernetes/server/bin/kube-apiserver \
   --advertise-address=${INTERNAL_IP} \
   --insecure-bind-address=${INTERNAL_IP} \
   --etcd-servers=${ETCD_SERVERS} \
