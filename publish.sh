@@ -8,6 +8,7 @@ fi
 MASTERS=`${BASE_PATH}/config.sh MASTERS`
 ETCD_SERVERS=`${BASE_PATH}/config.sh ETCD_SERVERS`
 CLUSTER_LIST=`${BASE_PATH}/config.sh CLUSTER_LIST`
+NODES=`${BASE_PATH}/config.sh NODES`
 
 ${BASE_PATH}/clean.sh
 ${BASE_PATH}/build-all.sh

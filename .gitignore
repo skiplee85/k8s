@@ -1,10 +1,13 @@
-/config.sh
+config.sh
 *.kubeconfig
-/config
+config
+token.csv
 ssl/*.pem
 ssl/*.csr
 master/ssl
 master/config
 master/token.csv
 node/ssl
+node/config
 node/*.kubeconfig
+node/token.csv
