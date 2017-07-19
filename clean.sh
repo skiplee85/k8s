@@ -4,4 +4,4 @@ if [ ! $BASE_PATH ]; then
 fi
 
 cd $BASE_PATH
-rm -rf config *.kubeconfig token.csv ssl/*.pem ssl/*.csr
+rm -rf ssl/*.pem ssl/*.csr master/ssl master/config master/token.csv node/ssl node/*.kubeconfig

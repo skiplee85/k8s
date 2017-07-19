@@ -1,13 +1,14 @@
 #!/bin/sh
-if [ ! $BASE_PATH ]; then
-  BASE_PATH=$(cd `dirname $0`; pwd)
-fi
-if [ ! $SERVER_IP ]; then
-  SERVER_IP=192.168.10.228
+if [ ! $1 ]; then
+  echo "HA_PROXY_IP is null!"
+  exit 1
 fi
 
+BASE_PATH=$(cd `dirname $0`; pwd)
+HA_PROXY_IP=$1
+
 SSL_PATH=${BASE_PATH}/ssl
-KUBE_APISERVER="https://${SERVER_IP}:6443"
+KUBE_APISERVER="https://${HA_PROXY_IP}:6443"
 BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ' ')
 
 cat > ${BASE_PATH}/token.csv <<EOF
@@ -62,11 +63,11 @@ kubectl config set-cluster kubernetes \
   --server=${KUBE_APISERVER} \
   --kubeconfig=${BASE_PATH}/config
 # 设置客户端认证参数
-kubectl config set-credentials kubernetes \
+kubectl config set-credentials admin \
   --certificate-authority=${SSL_PATH}/ca.pem \
-  --client-certificate=${SSL_PATH}/kubernetes.pem \
+  --client-certificate=${SSL_PATH}/admin.pem \
   --embed-certs=true \
-  --client-key=${SSL_PATH}/kubernetes-key.pem \
+  --client-key=${SSL_PATH}/admin-key.pem \
   --kubeconfig=${BASE_PATH}/config
 # 设置上下文参数
 kubectl config set-context kubernetes \

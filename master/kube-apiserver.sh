@@ -1,7 +1,6 @@
 #!/bin/sh
 kube-apiserver \
   --advertise-address=${INTERNAL_IP} \
-  --bind-address=${INTERNAL_IP} \
   --insecure-bind-address=${INTERNAL_IP} \
   --etcd-servers=${ETCD_SERVERS} \
   --service-cluster-ip-range=10.254.0.0/16 \

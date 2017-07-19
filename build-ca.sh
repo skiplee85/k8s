@@ -1,13 +1,10 @@
 #!/bin/sh
-
 if [ ! $1 ]; then
   echo "Servers IP is null!"
   exit 1
 fi
 
-if [ ! $BASE_PATH ]; then
-  BASE_PATH=$(cd `dirname $0`; pwd)
-fi
+BASE_PATH=$(cd `dirname $0`; pwd)
 
 cd ${BASE_PATH}/ssl
 
