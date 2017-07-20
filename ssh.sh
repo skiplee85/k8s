@@ -32,3 +32,9 @@ ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-controller
 
 #kube-scheduler config
 ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-scheduler.sh
+
+#supervisor config
+ssh root@${ip} sed -i "s/\\\${ETCD_NAME}/${name}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf
+ssh root@${ip} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf
+ssh root@${ip} sed -i "s/\\\${CLUSTER_LIST}/${CLUSTER_LIST}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf
+ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf

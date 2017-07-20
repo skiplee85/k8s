@@ -1,0 +1,45 @@
+#!/bin/bash
+HA_PROXY_IP=192.168.10.228
+MASTERS="k8s-master-1:192.168.10.228,k8s-master-2:192.168.10.242,k8s-master-3:192.168.10.243"
+MASTERS_ARR=(${MASTERS//,/ })
+
+SERVERS=""
+ETCD_SERVERS=""
+CLUSTER_LIST=""
+for server in ${MASTERS_ARR[@]}  
+do
+  name=`echo $server | cut -d : -f 1`
+  ip=`echo $server | cut -d : -f 2`
+  if [ ! ${SERVERS} ]; then
+    SERVERS=${ip}
+  else
+    SERVERS="${SERVERS},${ip}"
+  fi
+  
+  if [ ! ${ETCD_SERVERS} ]; then
+    ETCD_SERVERS="https://${ip}:2379"
+    CLUSTER_LIST="${name}=https://${ip}:2380"
+  else
+    ETCD_SERVERS="${ETCD_SERVERS},https://${ip}:2379"
+    CLUSTER_LIST="${CLUSTER_LIST},${name}=https://${ip}:2380"
+  fi
+done
+
+type=$1
+case $type in
+  "HA_PROXY_IP") 
+    echo ${HA_PROXY_IP};;
+  "MASTERS") 
+    echo ${MASTERS};;
+  "SERVERS") 
+    echo ${SERVERS};;
+  "ETCD_SERVERS") 
+    echo ${ETCD_SERVERS};;
+  "CLUSTER_LIST") 
+    echo ${CLUSTER_LIST};;
+  "ETCD_SERVERS") 
+    echo ${ETCD_SERVERS};;
+  *) 
+    echo "unknown type: $type"
+    exit 1;;
+esac

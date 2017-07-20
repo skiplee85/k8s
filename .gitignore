@@ -1,0 +1,10 @@
+/config.sh
+*.kubeconfig
+/config
+ssl/*.pem
+ssl/*.csr
+master/ssl
+master/config
+master/token.csv
+node/ssl
+node/*.kubeconfig

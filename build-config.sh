@@ -1,11 +1,14 @@
 #!/bin/sh
-if [ ! $1 ]; then
-  echo "HA_PROXY_IP is null!"
+BASE_PATH=$(cd `dirname $0`; pwd)
+if [ ! -f "${BASE_PATH}/config.sh" ]; then
+  echo "${BASE_PATH}/config.sh not found, please copy the config.sh.example and modify."
   exit 1
 fi
-
-BASE_PATH=$(cd `dirname $0`; pwd)
 HA_PROXY_IP=$1
+
+if [ ! ${HA_PROXY_IP} ]; then
+  HA_PROXY_IP=`${BASE_PATH}/config.sh HA_PROXY_IP`
+fi
 
 SSL_PATH=${BASE_PATH}/ssl
 KUBE_APISERVER="https://${HA_PROXY_IP}:6443"

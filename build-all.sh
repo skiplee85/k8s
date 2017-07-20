@@ -1,13 +1,17 @@
 #!/bin/sh
 BASE_PATH=$(cd `dirname $0`; pwd)
+if [ ! -f "${BASE_PATH}/config.sh" ]; then
+  echo "${BASE_PATH}/config.sh not found, please copy the config.sh.example and modify."
+  exit 1
+fi
 HA_PROXY_IP=$1
 SERVERS=$2
 
 if [ ! ${HA_PROXY_IP} ]; then
-  HA_PROXY_IP=192.168.10.228
+  HA_PROXY_IP=`${BASE_PATH}/config.sh HA_PROXY_IP`
 fi
 if [ ! ${SERVERS} ]; then
-  SERVERS=192.168.10.228,192.168.10.242,192.168.10.243
+  SERVERS=`${BASE_PATH}/config.sh SERVERS`
 fi
 
 # clean old config

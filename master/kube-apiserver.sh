@@ -24,5 +24,5 @@
   --audit-log-maxage=30 \
   --audit-log-maxbackup=3 \
   --audit-log-maxsize=100 \
-  --audit-log-path=/var/lib/audit.log \
+  --audit-log-path=/etc/kubernetes/log/audit.log \
   --event-ttl=1h

@@ -1,5 +1,5 @@
 #!/bin/sh
-etcd \
+/opt/etcd-v3.2.2-linux-amd64/etcd \
 --name ${ETCD_NAME} \
 --data-dir /etc/kubernetes/etcd/data \
 --wal-dir /etc/kubernetes/etcd/wal \
