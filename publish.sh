@@ -15,8 +15,15 @@ ${BASE_PATH}/build-all.sh
 MASTERS_ARR=(${MASTERS//,/ })
 for server in ${MASTERS_ARR[@]}  
 do
-  echo $server;
+  echo $server
   name=`echo $server | cut -d : -f 1`
   ip=`echo $server | cut -d : -f 2`
-  ${BASE_PATH}/ssh.sh $name $ip ${ETCD_SERVERS//\//\\\\\/} ${CLUSTER_LIST//\//\\\\\/}
+  ${BASE_PATH}/ssh-master.sh $name $ip ${ETCD_SERVERS//\//\\\\\/} ${CLUSTER_LIST//\//\\\\\/}
+done
+
+NODES_ARR=(${NODES//,/ })
+for node in ${NODES_ARR[@]}  
+do
+  echo $node
+  ${BASE_PATH}/ssh-node.sh $node ${ETCD_SERVERS//\//\\\\\/}
 done

@@ -27,9 +27,10 @@ cd ${BASE_PATH}
 # copy setting to master
 cp -r ssl ./master/
 rm ./master/ssl/*.json
-mv config token.csv ./master/
+cp config token.csv ./master/
 
 # copy setting to node
 cp -r ssl ./node/
 rm ./node/ssl/*.json
+cp config ./node/
 mv *.kubeconfig ./node/

@@ -2,6 +2,7 @@
 HA_PROXY_IP=192.168.10.228
 MASTERS="k8s-master-1:192.168.10.228,k8s-master-2:192.168.10.242,k8s-master-3:192.168.10.243"
 MASTERS_ARR=(${MASTERS//,/ })
+NODES="192.168.10.228,192.168.10.242,192.168.10.243"
 
 SERVERS=""
 ETCD_SERVERS=""
@@ -28,18 +29,28 @@ done
 type=$1
 case $type in
   "HA_PROXY_IP") 
-    echo ${HA_PROXY_IP};;
+    echo ${HA_PROXY_IP}
+    ;;
   "MASTERS") 
-    echo ${MASTERS};;
+    echo ${MASTERS}
+    ;;
   "SERVERS") 
-    echo ${SERVERS};;
+    echo ${SERVERS}
+    ;;
   "ETCD_SERVERS") 
-    echo ${ETCD_SERVERS};;
+    echo ${ETCD_SERVERS}
+    ;;
   "CLUSTER_LIST") 
-    echo ${CLUSTER_LIST};;
+    echo ${CLUSTER_LIST}
+    ;;
   "ETCD_SERVERS") 
-    echo ${ETCD_SERVERS};;
+    echo ${ETCD_SERVERS}
+    ;;
+  "NODES")
+    echo ${NODES}
+    ;;
   *) 
     echo "unknown type: $type"
-    exit 1;;
+    exit 1
+    ;;
 esac
