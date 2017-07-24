@@ -1,4 +1,4 @@
-config.sh
+config.env
 *.kubeconfig
 config
 token.csv
@@ -9,5 +9,7 @@ master/config
 master/token.csv
 node/ssl
 node/config
+node/flannel/subnet.env
+node/docker/daemon.json
 node/*.kubeconfig
 node/token.csv

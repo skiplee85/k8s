@@ -1,13 +1,10 @@
 #!/bin/sh
 BASE_PATH=$(cd `dirname $0`; pwd)
-if [ ! -f "${BASE_PATH}/config.sh" ]; then
-  echo "${BASE_PATH}/config.sh not found, please copy the config.sh.example and modify."
+if [ ! -f "${BASE_PATH}/config.env" ]; then
+  echo "${BASE_PATH}/config.env not found, please copy the config.env.example and modify."
   exit 1
-fi
-SERVERS=$1
-
-if [ ! SERVERS ]; then
-  SERVERS=`${BASE_PATH}/config.sh SERVERS`
+else
+  . ${BASE_PATH}/config.env
 fi
 
 cd ${BASE_PATH}/ssl

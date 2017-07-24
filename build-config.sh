@@ -1,13 +1,10 @@
 #!/bin/sh
 BASE_PATH=$(cd `dirname $0`; pwd)
-if [ ! -f "${BASE_PATH}/config.sh" ]; then
-  echo "${BASE_PATH}/config.sh not found, please copy the config.sh.example and modify."
+if [ ! -f "${BASE_PATH}/config.env" ]; then
+  echo "${BASE_PATH}/config.env not found, please copy the config.env.example and modify."
   exit 1
-fi
-HA_PROXY_IP=$1
-
-if [ ! ${HA_PROXY_IP} ]; then
-  HA_PROXY_IP=`${BASE_PATH}/config.sh HA_PROXY_IP`
+else
+  . ${BASE_PATH}/config.env
 fi
 
 SSL_PATH=${BASE_PATH}/ssl

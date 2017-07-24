@@ -1,20 +1,16 @@
 #!/bin/bash
 BASE_PATH=$(cd `dirname $0`; pwd)
-if [ ! -f "${BASE_PATH}/config.sh" ]; then
-  echo "${BASE_PATH}/config.sh not found, please copy the config.sh.example and modify."
+if [ ! -f "${BASE_PATH}/config.env" ]; then
+  echo "${BASE_PATH}/config.env not found, please copy the config.env.example and modify."
   exit 1
+else
+  . ${BASE_PATH}/config.env
 fi
-
-MASTERS=`${BASE_PATH}/config.sh MASTERS`
-ETCD_SERVERS=`${BASE_PATH}/config.sh ETCD_SERVERS`
-CLUSTER_LIST=`${BASE_PATH}/config.sh CLUSTER_LIST`
-NODES=`${BASE_PATH}/config.sh NODES`
 
 ${BASE_PATH}/clean.sh
 ${BASE_PATH}/build-all.sh
 
-MASTERS_ARR=(${MASTERS//,/ })
-for server in ${MASTERS_ARR[@]}  
+for server in ${MASTERS[@]}  
 do
   echo $server
   name=`echo $server | cut -d : -f 1`
@@ -22,8 +18,7 @@ do
   ${BASE_PATH}/ssh-master.sh $name $ip ${ETCD_SERVERS//\//\\\\\/} ${CLUSTER_LIST//\//\\\\\/}
 done
 
-NODES_ARR=(${NODES//,/ })
-for node in ${NODES_ARR[@]}  
+for node in ${NODES[@]}  
 do
   echo $node
   ${BASE_PATH}/ssh-node.sh $node ${ETCD_SERVERS//\//\\\\\/}
