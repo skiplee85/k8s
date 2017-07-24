@@ -16,12 +16,10 @@ if [ -n "$FLANNEL_MTU" ]; then
   echo ",\"mtu\":$FLANNEL_MTU" >> $docker_conf
 fi
 
-if [ -n "$FLANNEL_IPMASQ" ] && [ $ipmasq = true ] ; then
-  if [ "$FLANNEL_IPMASQ" = true ] ; then
-    echo ",\"ip-masq\":false" >> $docker_conf
-  elif [ "$FLANNEL_IPMASQ" = false ] ; then
-    echo ",\"ip-masq\"true" >> $docker_conf
-  fi
+if [ "$FLANNEL_IPMASQ" = true ] ; then
+  echo ",\"ip-masq\":false" >> $docker_conf
+elif [ "$FLANNEL_IPMASQ" = false ] ; then
+  echo ",\"ip-masq\"true" >> $docker_conf
 fi
 
 echo "}" >> $docker_conf
