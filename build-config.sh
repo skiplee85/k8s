@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 BASE_PATH=$(cd `dirname $0`; pwd)
 if [ ! -f "${BASE_PATH}/config.env" ]; then
   echo "${BASE_PATH}/config.env not found, please copy the config.env.example and modify."
