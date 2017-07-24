@@ -1,6 +1,5 @@
 #!/bin/sh
-
-/opt/kubernetes/server/bin/kube-controller-manager \
+kube-controller-manager \
   --address=127.0.0.1 \
   --service-cluster-ip-range=10.254.0.0/16 \
   --cluster-name=kubernetes \

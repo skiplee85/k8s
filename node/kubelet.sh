@@ -1,5 +1,5 @@
 #!/bin/sh
-/opt/kubernetes/server/bin/kubelet \
+kubelet \
   --address=${INTERNAL_IP} \
   --api-servers=http://${INTERNAL_IP}:8080 \
   --pod-infra-container-image=sz-pg-oam-docker-hub-001.tendcloud.com/library/pod-infrastructure:rhel7 \
@@ -10,5 +10,4 @@
   --require-kubeconfig \
   --cert-dir=/etc/kubernetes/ssl \
   --cluster-domain=cluster.local. \
-  --hairpin-mode promiscuous-bridge \
   --serialize-image-pulls=false

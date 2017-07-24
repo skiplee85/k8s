@@ -1,5 +1,5 @@
 #!/bin/sh
-/opt/kubernetes/server/bin/kube-proxy \
+kube-proxy \
   --bind-address=${INTERNAL_IP} \
   --hostname-override=${INTERNAL_IP} \
   --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
