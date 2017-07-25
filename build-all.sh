@@ -23,5 +23,7 @@ rm ./master/ssl/*.json
 cp config token.csv ./master/
 
 # copy setting to node
+mkdir -p ./node/ssl
+cp ssl/ca.pem ssl/kubernetes.pem ssl/kubernetes-key.pem ./node/ssl/
 cp config ./node/
 mv *.kubeconfig ./node/
