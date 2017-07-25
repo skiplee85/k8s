@@ -30,7 +30,7 @@ env_replace ${KUBE_PATH}/flannel/start.sh
 
 #docker config
 env_replace ${KUBE_PATH}/docker/start.sh
-env_replace ${KUBE_PATH}/dockerbuild-conf.sh
+env_replace ${KUBE_PATH}/docker/build-conf.sh
 
 #kubelet config
 env_replace ${KUBE_PATH}/kubelet.sh
