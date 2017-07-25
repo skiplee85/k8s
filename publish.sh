@@ -7,19 +7,55 @@ else
   . ${BASE_PATH}/config.env
 fi
 
-${BASE_PATH}/clean.sh
-${BASE_PATH}/build-all.sh
+usage() {
+        echo "$0  [-b] [-a] [-m] [-n]
 
-for server in ${MASTERS[@]}  
-do
-  echo $server
-  name=`echo $server | cut -d : -f 1`
-  ip=`echo $server | cut -d : -f 2`
-  ${BASE_PATH}/ssh-master.sh $name $ip ${ETCD_SERVERS//\//\\\\\/} ${CLUSTER_LIST//\//\\\\\/}
-done
+Publish setting to masters or nodes
+OPTIONS:
+        -b      Use config.env and ssl to build settings
+        -a      Publish all (include masters and nodes)
+        -m      Publish to masters
+        -n      Publish to nodes
+" >&2
 
-for node in ${NODES[@]}  
-do
-  echo $node
-  ${BASE_PATH}/ssh-node.sh $node ${ETCD_SERVERS//\//\\\\\/}
+        exit 1
+}
+
+masters_publish() {
+  for server in ${MASTERS[@]}  
+  do
+    echo $server
+    name=`echo $server | cut -d : -f 1`
+    ip=`echo $server | cut -d : -f 2`
+    ${BASE_PATH}/ssh-master.sh $name $ip ${ETCD_SERVERS//\//\\\\\/} ${CLUSTER_LIST//\//\\\\\/}
+  done
+}
+
+nodes_publish() {
+  for node in ${NODES[@]}  
+  do
+    echo $node
+    ${BASE_PATH}/ssh-node.sh $node ${ETCD_SERVERS//\//\\\\\/}
+  done
+}
+
+while getopts "abmn?h" opt; do
+  case $opt in
+    a)
+      masters_publish
+      nodes_publish
+      ;;
+    b)
+      ${BASE_PATH}/build-all.sh
+      ;;
+    m)
+      masters_publish
+      ;;
+    n)
+      nodes_publish
+      ;;
+    [\?h])
+      usage
+      ;;
+  esac
 done

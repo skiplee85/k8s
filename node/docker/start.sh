@@ -1,2 +1,3 @@
 #!/bin/bash
-dockerd --config-file=/etc/kubernetes/docker/daemon.json
+/etc/kubernetes/docker/build-conf.sh \
+  && dockerd --config-file=/etc/kubernetes/docker/daemon.json
