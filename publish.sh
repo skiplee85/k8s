@@ -27,7 +27,7 @@ masters_publish() {
     echo $server
     name=`echo $server | cut -d : -f 1`
     ip=`echo $server | cut -d : -f 2`
-    ${BASE_PATH}/ssh-master.sh $name $ip ${ETCD_SERVERS//\//\\\\\/} ${CLUSTER_LIST//\//\\\\\/}
+    ${BASE_PATH}/ssh-master.sh $name $ip
   done
 }
 
@@ -35,7 +35,7 @@ nodes_publish() {
   for node in ${NODES[@]}  
   do
     echo $node
-    ${BASE_PATH}/ssh-node.sh $node ${ETCD_SERVERS//\//\\\\\/}
+    ${BASE_PATH}/ssh-node.sh $node
   done
 }
 

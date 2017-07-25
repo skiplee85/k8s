@@ -1,10 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 BASE_PATH=$(cd `dirname $0`; pwd)
+if [ ! -f "${BASE_PATH}/config.env" ]; then
+  echo "${BASE_PATH}/config.env not found, please copy the config.env.example and modify."
+  exit 1
+else
+  . ${BASE_PATH}/config.env
+fi
 
 name=$1
 ip=$2
-ETCD_SERVERS=$3
-CLUSTER_LIST=$4
+ETCD_SERVERS=${ETCD_SERVERS//\//\\\\\/}
+CLUSTER_LIST=${CLUSTER_LIST//\//\\\\\/}
 
 KUBE_PATH=/etc/kubernetes
 

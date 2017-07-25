@@ -1,8 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 BASE_PATH=$(cd `dirname $0`; pwd)
+if [ ! -f "${BASE_PATH}/config.env" ]; then
+  echo "${BASE_PATH}/config.env not found, please copy the config.env.example and modify."
+  exit 1
+else
+  . ${BASE_PATH}/config.env
+fi
 
 ip=$1
-ETCD_SERVERS=$2
+ETCD_SERVERS=${ETCD_SERVERS//\//\\\\\/}
 
 KUBE_PATH=/etc/kubernetes
 
@@ -20,6 +26,7 @@ ssh root@${ip} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS}/g" ${KUBE_PATH}/flan
 
 #kubelet config
 ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kubelet.sh
+ssh root@${ip} sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${KUBE_PATH}/kubelet.sh
 
 #kube-proxy config
 ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-proxy.sh
@@ -27,3 +34,4 @@ ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-proxy.sh
 #supervisor config
 ssh root@${ip} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS}/g" ${KUBE_PATH}/supervisord.d/kube-node.conf
 ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/supervisord.d/kube-node.conf
+ssh root@${ip} sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${KUBE_PATH}/supervisord.d/kube-node.conf
