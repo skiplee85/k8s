@@ -7,10 +7,15 @@ else
   . ${BASE_PATH}/config.env
 fi
 
-ip=$1
-ETCD_SERVERS=${ETCD_SERVERS//\//\\\\\/}
-
-KUBE_PATH=/etc/kubernetes
+INTERNAL_IP=$1
+env_replace() {
+  file_path=$1
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${ETCD_NAME}/${ETCD_NAME}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${INTERNAL_IP}/${INTERNAL_IP}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${KUBE_PATH}/${KUBE_PATH//\//\\\\\/}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS//\//\\\\\/}/g" ${file_path}
+}
 
 # ~/.kube/config
 # 设置集群参数
@@ -22,16 +27,13 @@ ssh root@${ip} mkdir -p /root/.kube/
 ssh root@${ip} mv ${KUBE_PATH}/config /root/.kube/
 
 #flannel config
-ssh root@${ip} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS}/g" ${KUBE_PATH}/flannel/start.sh
+env_replace ${KUBE_PATH}/flannel/start.sh
 
 #kubelet config
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kubelet.sh
-ssh root@${ip} sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${KUBE_PATH}/kubelet.sh
+env_replace ${KUBE_PATH}/kubelet.sh
 
 #kube-proxy config
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-proxy.sh
+env_replace ${KUBE_PATH}/kube-proxy.sh
 
 #supervisor config
-ssh root@${ip} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS}/g" ${KUBE_PATH}/supervisord.d/kube-node.conf
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/supervisord.d/kube-node.conf
-ssh root@${ip} sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${KUBE_PATH}/supervisord.d/kube-node.conf
+env_replace ${KUBE_PATH}/supervisord.d/kube-node.conf

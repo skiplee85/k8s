@@ -1,8 +1,8 @@
 #!/bin/sh
 /opt/etcd-v3.2.2-linux-amd64/etcd \
 --name ${ETCD_NAME} \
---data-dir /etc/kubernetes/etcd/data \
---wal-dir /etc/kubernetes/etcd/wal \
+--data-dir ${KUBE_PATH}/etcd/data \
+--wal-dir ${KUBE_PATH}/etcd/wal \
 --snapshot-count 10000 \
 --heartbeat-interval 100 \
 --election-timeout 1000 \
@@ -24,15 +24,15 @@
 --proxy-dial-timeout 1000 \
 --proxy-write-timeout 5000 \
 --proxy-read-timeout 0 \
---cert-file /etc/kubernetes/ssl/kubernetes.pem \
---key-file /etc/kubernetes/ssl/kubernetes-key.pem \
+--cert-file ${KUBE_PATH}/ssl/kubernetes.pem \
+--key-file ${KUBE_PATH}/ssl/kubernetes-key.pem \
 --client-cert-auth=true \
---trusted-ca-file /etc/kubernetes/ssl/ca.pem \
+--trusted-ca-file ${KUBE_PATH}/ssl/ca.pem \
 --auto-tls=false \
---peer-cert-file /etc/kubernetes/ssl/kubernetes.pem \
---peer-key-file /etc/kubernetes/ssl/kubernetes-key.pem \
+--peer-cert-file ${KUBE_PATH}/ssl/kubernetes.pem \
+--peer-key-file ${KUBE_PATH}/ssl/kubernetes-key.pem \
 --peer-client-cert-auth=true \
---peer-trusted-ca-file /etc/kubernetes/ssl/ca.pem \
+--peer-trusted-ca-file ${KUBE_PATH}/ssl/ca.pem \
 --peer-auto-tls=false \
 --debug=false \
 --force-new-cluster=false

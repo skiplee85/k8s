@@ -7,12 +7,18 @@ else
   . ${BASE_PATH}/config.env
 fi
 
-name=$1
-ip=$2
-ETCD_SERVERS=${ETCD_SERVERS//\//\\\\\/}
-CLUSTER_LIST=${CLUSTER_LIST//\//\\\\\/}
+ETCD_NAME=$1
+INTERNAL_IP=$2
 
-KUBE_PATH=/etc/kubernetes
+env_replace() {
+  file_path=$1
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${ETCD_NAME}/${ETCD_NAME}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${INTERNAL_IP}/${INTERNAL_IP}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${KUBE_PATH}/${KUBE_PATH//\//\\\\\/}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS//\//\\\\\/}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${CLUSTER_LIST}/${CLUSTER_LIST//\//\\\\\/}/g" ${file_path}
+}
 
 # ~/.kube/config
 # 设置集群参数
@@ -24,22 +30,16 @@ ssh root@${ip} mkdir -p /root/.kube/
 ssh root@${ip} mv ${KUBE_PATH}/config /root/.kube/
 
 #etcd config
-ssh root@${ip} sed -i "s/\\\${ETCD_NAME}/${name}/g" ${KUBE_PATH}/etcd/start.sh
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/etcd/start.sh
-ssh root@${ip} sed -i "s/\\\${CLUSTER_LIST}/${CLUSTER_LIST}/g" ${KUBE_PATH}/etcd/start.sh
+env_replace ${KUBE_PATH}/etcd/start.sh
 
 #kube-apiserver config
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-apiserver.sh
-ssh root@${ip} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS}/g" ${KUBE_PATH}/kube-apiserver.sh
+env_replace ${KUBE_PATH}/kube-apiserver.sh
 
 #kube-controller-manager config
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-controller-manager.sh
+env_replace ${KUBE_PATH}/kube-controller-manager.sh
 
 #kube-scheduler config
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/kube-scheduler.sh
+env_replace ${KUBE_PATH}/kube-scheduler.sh
 
 #supervisor config
-ssh root@${ip} sed -i "s/\\\${ETCD_NAME}/${name}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf
-ssh root@${ip} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf
-ssh root@${ip} sed -i "s/\\\${CLUSTER_LIST}/${CLUSTER_LIST}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf
-ssh root@${ip} sed -i "s/\\\${INTERNAL_IP}/${ip}/g" ${KUBE_PATH}/supervisord.d/kube-server.conf
+env_replace ${KUBE_PATH}/supervisord.d/kube-server.conf

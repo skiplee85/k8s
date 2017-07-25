@@ -2,5 +2,5 @@
 kube-proxy \
   --bind-address=${INTERNAL_IP} \
   --hostname-override=${INTERNAL_IP} \
-  --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
+  --kubeconfig=${KUBE_PATH}/kube-proxy.kubeconfig \
   --cluster-cidr=10.254.0.0/16

@@ -23,7 +23,5 @@ rm ./master/ssl/*.json
 cp config token.csv ./master/
 
 # copy setting to node
-cp -r ssl ./node/
-rm ./node/ssl/*.json
 cp config ./node/
 mv *.kubeconfig ./node/
