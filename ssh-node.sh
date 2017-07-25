@@ -20,7 +20,7 @@ env_replace() {
 # ~/.kube/config
 # 设置集群参数
 ssh root@${INTERNAL_IP} mkdir -p ${KUBE_PATH}/log
-scp -r $BASE_PATH/node/* root@${ip}:${KUBE_PATH}/
+scp -r $BASE_PATH/node/* root@${INTERNAL_IP}:${KUBE_PATH}/
 
 #kubectl config
 ssh root@${INTERNAL_IP} mkdir -p /root/.kube/
