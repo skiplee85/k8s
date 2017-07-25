@@ -18,7 +18,6 @@ env_replace() {
 }
 
 # ~/.kube/config
-# 设置集群参数
 ssh root@${INTERNAL_IP} mkdir -p ${KUBE_PATH}/log
 scp -r $BASE_PATH/node/* root@${INTERNAL_IP}:${KUBE_PATH}/
 
@@ -28,6 +27,10 @@ ssh root@${INTERNAL_IP} mv ${KUBE_PATH}/config /root/.kube/
 
 #flannel config
 env_replace ${KUBE_PATH}/flannel/start.sh
+
+#docker config
+env_replace ${KUBE_PATH}/docker/start.sh
+env_replace ${KUBE_PATH}/dockerbuild-conf.sh
 
 #kubelet config
 env_replace ${KUBE_PATH}/kubelet.sh

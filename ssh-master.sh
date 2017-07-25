@@ -21,7 +21,6 @@ env_replace() {
 }
 
 # ~/.kube/config
-# 设置集群参数
 ssh root@${INTERNAL_IP} mkdir -p ${KUBE_PATH}/log
 scp -r $BASE_PATH/master/* root@${INTERNAL_IP}:${KUBE_PATH}/
 
@@ -31,6 +30,9 @@ ssh root@${INTERNAL_IP} mv ${KUBE_PATH}/config /root/.kube/
 
 #etcd config
 env_replace ${KUBE_PATH}/etcd/start.sh
+
+#init-master.sh
+env_replace ${KUBE_PATH}/init-master.sh
 
 #kube-apiserver config
 env_replace ${KUBE_PATH}/kube-apiserver.sh
