@@ -19,12 +19,12 @@ env_replace() {
 
 # ~/.kube/config
 # 设置集群参数
-ssh root@${ip} mkdir -p ${KUBE_PATH}/log
+ssh root@${INTERNAL_IP} mkdir -p ${KUBE_PATH}/log
 scp -r $BASE_PATH/node/* root@${ip}:${KUBE_PATH}/
 
 #kubectl config
-ssh root@${ip} mkdir -p /root/.kube/
-ssh root@${ip} mv ${KUBE_PATH}/config /root/.kube/
+ssh root@${INTERNAL_IP} mkdir -p /root/.kube/
+ssh root@${INTERNAL_IP} mv ${KUBE_PATH}/config /root/.kube/
 
 #flannel config
 env_replace ${KUBE_PATH}/flannel/start.sh
