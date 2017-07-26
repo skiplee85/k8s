@@ -23,4 +23,3 @@ elif [ "$FLANNEL_IPMASQ" = false ] ; then
 fi
 
 echo "}" >> $docker_conf
-service docker stop

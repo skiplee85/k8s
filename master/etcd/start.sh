@@ -1,5 +1,5 @@
 #!/bin/sh
-/opt/etcd-v3.2.2-linux-amd64/etcd \
+etcd \
 --name ${ETCD_NAME} \
 --data-dir ${KUBE_PATH}/etcd/data \
 --wal-dir ${KUBE_PATH}/etcd/wal \

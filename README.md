@@ -1,7 +1,132 @@
-# kubernetes setting shell
-## master
-set INTERNAL_IP & ETCD_SERVERS to master server
+# Kubernetes setting shell
+
+## Require
+
+- [kubernetes](https://github.com/kubernetes/kubernetes)
+- [etcd](https://github.com/coreos/etcd)
+- [flannel](https://github.com/coreos/flannel)
+- [supervisor (optional)](https://github.com/Supervisor/supervisor)
+
+## Setting
+
+### Step 1
+
+Update *config.env* setting.
+
+- KUBE_PATH
+- HA_PROXY_IP
+- MASTERS
+- NODES
+
+You can copy from *config.env.example*. 
+
+```sh
+cp config.env.example config.env
 ```
-export INTERNAL_IP=192.168.10.228
-export ETCD_SERVERS=https://192.168.10.228:2379,https://192.168.10.242:2379,https://192.168.10.243:2379
+
+### Step 2
+
+Download require software and link to bin path.
+
+#### Master
+
+- etcd
+- kube-apiserver
+- kube-controller-manager
+- kube-scheduler
+
+#### Node
+
+- flannel
+- docker
+- kubelet
+- kube-proxy
+
+```sh
+# master
+# etcd
+ln -s /opt/etcd-v3.2.2-linux-amd64/etcd /usr/local/bin/
+ln -s /opt/etcd-v3.2.2-linux-amd64/etcdctl /usr/local/bin/
+ln -s /opt/kubernetes/server/bin/kube-apiserver /usr/local/bin/
+ln -s /opt/kubernetes/server/bin/kube-controller-manager /usr/local/bin/
+ln -s /opt/kubernetes/server/bin/kube-scheduler /usr/local/bin/
+ln -s /opt/kubernetes/server/bin/kubectl /usr/local/bin/
+
+# node
+ln -s /opt/flanneld /usr/local/bin/
+ln -s /opt/kubernetes/server/bin/kubelet /usr/local/bin/
+ln -s /opt/kubernetes/server/bin/kubectl /usr/local/bin/
+```
+
+### Step 3
+
+Publish setting. (The masters & nodes need to set SSH first.)
+
+```sh
+./publish.sh -b -a
+```
+
+### Step 4
+
+#### Master start
+
+```sh
+# etcd
+/etc/kubernetes/etcd/start.sh
+
+# apiserver
+/etc/kubernetes/etcd/kube-apiserver.sh
+
+# controller-manager
+/etc/kubernetes/etcd/kube-controller-manager.sh
+
+# scheduler
+/etc/kubernetes/etcd/kube-scheduler.sh
+
+# init-setting. Just only exec once.
+/etc/kubernetes/etcd/init-master.sh
+```
+
+#### Node start
+
+```sh
+# flannel
+/etc/kubernetes/flannel/start.sh
+
+# docker (Must stop docker before. Like: service docker stop)
+/etc/kubernetes/docker/build-conf.sh
+/etc/kubernetes/docker/start.sh
+
+# kubelet
+/etc/kubernetes/etcd/kubelet.sh
+
+# proxy
+/etc/kubernetes/etcd/kube-proxy.sh
+
+# Approve this node. Just only exec once.
+kubectl get csr
+# NAME                                                   AGE       REQUESTOR           CONDITION
+# node-csr-5WW3f84N09lX2pkWmfvT833gAXW_RZTf-G6N0L-P5Ms   10s       kubelet-bootstrap   Pending
+kubectl certificate approve node-csr-xxxxx
+```
+
+#### Use supervisor
+
+```sh
+cp /etc/kubernetes/supervisord.d/* /etc/supervisor/conf.d/
+supervisorctl update
+
+# master
+supervisorctl start kube_server:*
+# init-setting. Just only exec once.
+/etc/kubernetes/etcd/init-master.sh
+
+# node
+supervisorctl start kube_node:flannel
+supervisorctl start kube_node:*
+# Approve this node. Just only exec once.
+kubectl get csr
+# NAME                                                   AGE       REQUESTOR           CONDITION
+# node-csr-5WW3f84N09lX2pkWmfvT833gAXW_RZTf-G6N0L-P5Ms   10s       kubelet-bootstrap   Pending
+kubectl certificate approve node-csr-xxxxx
 ```

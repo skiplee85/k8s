@@ -10,11 +10,11 @@ fi
 INTERNAL_IP=$1
 env_replace() {
   file_path=$1
-  ssh root@${INTERNAL_IP} sed -i "s/\\\${ETCD_NAME}/${ETCD_NAME}/g" ${file_path}
-  ssh root@${INTERNAL_IP} sed -i "s/\\\${INTERNAL_IP}/${INTERNAL_IP}/g" ${file_path}
-  ssh root@${INTERNAL_IP} sed -i "s/\\\${KUBE_PATH}/${KUBE_PATH//\//\\\\\/}/g" ${file_path}
-  ssh root@${INTERNAL_IP} sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${file_path}
-  ssh root@${INTERNAL_IP} sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS//\//\\\\\/}/g" ${file_path}
+  ssh root@${INTERNAL_IP} sed -i "s/\\\${ETCD_NAME}/${ETCD_NAME}/g" ${file_path} \
+  \&\& sed -i "s/\\\${INTERNAL_IP}/${INTERNAL_IP}/g" ${file_path} \
+  \&\& sed -i "s/\\\${KUBE_PATH}/${KUBE_PATH//\//\\\\\/}/g" ${file_path} \
+  \&\& sed -i "s/\\\${HA_PROXY_IP}/${HA_PROXY_IP}/g" ${file_path} \
+  \&\& sed -i "s/\\\${ETCD_SERVERS}/${ETCD_SERVERS//\//\\\\\/}/g" ${file_path}
 }
 
 # ~/.kube/config
