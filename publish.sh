@@ -1,10 +1,10 @@
 #!/bin/bash
 BASE_PATH=$(cd `dirname $0`; pwd)
-if [ ! -f "${BASE_PATH}/config.env" ]; then
-  echo "${BASE_PATH}/config.env not found, please copy the config.env.example and modify."
+if [ ! -f "$BASE_PATH/config.env" ]; then
+  echo "$BASE_PATH/config.env not found, please copy the config.env.example and modify."
   exit 1
 else
-  . ${BASE_PATH}/config.env
+  . $BASE_PATH/config.env
 fi
 
 usage() {
@@ -27,7 +27,7 @@ masters_publish() {
     echo $server
     name=`echo $server | cut -d : -f 1`
     ip=`echo $server | cut -d : -f 2`
-    ${BASE_PATH}/ssh-master.sh $name $ip
+    $BASE_PATH/ssh-master.sh $name $ip
   done
 }
 
@@ -35,7 +35,7 @@ nodes_publish() {
   for node in ${NODES[@]}  
   do
     echo $node
-    ${BASE_PATH}/ssh-node.sh $node
+    $BASE_PATH/ssh-node.sh $node
   done
 }
 
@@ -46,7 +46,7 @@ while getopts "abmn?h" opt; do
       nodes_publish
       ;;
     b)
-      ${BASE_PATH}/build-all.sh
+      $BASE_PATH/build-all.sh
       ;;
     m)
       masters_publish

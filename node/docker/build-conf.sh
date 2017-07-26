@@ -1,6 +1,6 @@
 #!/bin/bash
-flannel_env="${KUBE_PATH}/flannel/subnet.env"
-docker_conf="${KUBE_PATH}/docker/daemon.json"
+flannel_env="$KUBE_PATH/flannel/subnet.env"
+docker_conf="$KUBE_PATH/docker/daemon.json"
 
 if [ -f "$flannel_env" ]; then
   . $flannel_env
