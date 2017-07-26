@@ -17,11 +17,14 @@ Update *config.env* setting.
 - HA_PROXY_IP
 - MASTERS
 - NODES
+- BOOTSTRAP_TOKEN
 
 You can copy from *config.env.example*. 
 
 ```sh
 cp config.env.example config.env
+# BOOTSTRAP_TOKEN
+head -c 16 /dev/urandom | od -An -t x | tr -d ' '
 ```
 
 ### Step 2

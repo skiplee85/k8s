@@ -9,7 +9,6 @@ fi
 
 SSL_PATH=$BASE_PATH/ssl
 KUBE_APISERVER="https://$HA_PROXY_IP:6443"
-BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ' ')
 
 cat > $BASE_PATH/token.csv <<EOF
 $BOOTSTRAP_TOKEN,kubelet-bootstrap,10001,"system:kubelet-bootstrap"
