@@ -94,7 +94,6 @@ Publish setting. (The masters & nodes need to set SSH first.)
 /etc/kubernetes/flannel/start.sh
 
 # docker (Must stop docker before. Like: service docker stop)
-/etc/kubernetes/docker/build-conf.sh
 /etc/kubernetes/docker/start.sh
 
 # kubelet
@@ -119,7 +118,7 @@ supervisorctl update
 # master
 supervisorctl start kube_server:*
 # init-setting. Just only exec once.
-/etc/kubernetes/etcd/init-master.sh
+/etc/kubernetes/init-master.sh
 
 # node
 supervisorctl start kube_node:flannel
