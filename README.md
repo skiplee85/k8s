@@ -19,7 +19,7 @@ Update *config.env* setting.
 - NODES
 - BOOTSTRAP_TOKEN
 
-You can copy from *config.env.example*. 
+You can copy from *config.env.example*.
 
 ```sh
 cp config.env.example config.env
@@ -58,6 +58,7 @@ ln -s /opt/kubernetes/server/bin/kubectl /usr/local/bin/
 # node
 ln -s /opt/flanneld /usr/local/bin/
 ln -s /opt/kubernetes/server/bin/kubelet /usr/local/bin/
+ln -s /opt/kubernetes/server/bin/kube-proxy /usr/local/bin/
 ln -s /opt/kubernetes/server/bin/kubectl /usr/local/bin/
 ```
 
