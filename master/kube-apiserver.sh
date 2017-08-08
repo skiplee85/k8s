@@ -8,7 +8,6 @@ kube-apiserver \
   --authorization-mode=RBAC \
   --runtime-config=rbac.authorization.k8s.io/v1beta1 \
   --kubelet-https=true \
-  --anonymous-auth=false \
   --experimental-bootstrap-token-auth \
   --token-auth-file=$KUBE_PATH/token.csv \
   --service-node-port-range=30000-32767 \

@@ -1,6 +1,7 @@
 #!/bin/sh
 kubelet \
   --address=$INTERNAL_IP \
+  --hostname-override=$INTERNAL_IP \
   --pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0 \
   --cluster-dns=$DNS_SERVER_IP \
   --experimental-bootstrap-kubeconfig=$KUBE_PATH/bootstrap.kubeconfig \
