@@ -7,23 +7,8 @@ else
   . $BASE_PATH/config.env
 fi
 
-# clean old config
-$BASE_PATH/clean.sh
-
 # build ca
 $BASE_PATH/build-ca.sh
 
 # build config
 $BASE_PATH/build-config.sh
-
-cd $BASE_PATH
-# copy setting to master
-cp -r ssl ./master/
-rm ./master/ssl/*.json
-cp config token.csv ./master/
-
-# copy setting to node
-mkdir -p ./node/ssl
-cp ssl/ca.pem ssl/kubernetes.pem ssl/kubernetes-key.pem ./node/ssl/
-cp config ./node/
-mv *.kubeconfig ./node/

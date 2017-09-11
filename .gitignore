@@ -1,13 +1,13 @@
 config.env
 *.kubeconfig
-config
+kubectl-config
 token.csv
 ssl/*.pem
 ssl/*.csr
-master/ssl
+master/ssl/*.pem
 master/config
 master/token.csv
-node/ssl
+node/ssl/*.pem
 node/config
 node/flannel/subnet.env
 node/docker/daemon.json
