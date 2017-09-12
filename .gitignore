@@ -4,6 +4,7 @@ kubectl-config
 token.csv
 ssl/*.pem
 ssl/*.csr
+ssl/*.p12
 master/ssl/*.pem
 master/config
 master/token.csv

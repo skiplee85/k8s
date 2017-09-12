@@ -9,4 +9,4 @@ kube-controller-manager \
   --service-account-private-key-file=$KUBE_PATH/ssl/ca-key.pem \
   --root-ca-file=$KUBE_PATH/ssl/ca.pem \
   --leader-elect=true \
-  --master=http://$INTERNAL_IP:8080
+  --master=http://127.0.0.1:8080

@@ -2,6 +2,7 @@
 
 ## Require
 
+- [cfssl](https://github.com/cloudflare/cfssl)
 - [kubernetes](https://github.com/kubernetes/kubernetes)
 - [etcd](https://github.com/coreos/etcd)
 - [flannel](https://github.com/coreos/flannel)
@@ -18,6 +19,7 @@ Update *config.env* setting.
 - MASTERS
 - NODES
 - BOOTSTRAP_TOKEN
+- P12_PASSWORD
 
 You can copy from *config.env.example*.
 
@@ -97,14 +99,14 @@ Publish setting. (The masters & nodes need to set SSH first.)
 # flannel
 /etc/kubernetes/flannel/start.sh
 
-# docker (Must stop docker before. Like: service docker stop)
-/etc/kubernetes/docker/start.sh
-
 # kubelet
 /etc/kubernetes/etcd/kubelet.sh
 
 # proxy
 /etc/kubernetes/etcd/kube-proxy.sh
+
+# init-setting. Just only exec once.
+/etc/kubernetes/init-node.sh
 
 # Approve this node. Just only exec once.
 kubectl get csr
@@ -125,8 +127,9 @@ supervisorctl start kube_server:*
 /etc/kubernetes/init-master.sh
 
 # node
-supervisorctl start kube_node:flannel
 supervisorctl start kube_node:*
+# init-setting. Just only exec once.
+/etc/kubernetes/init-node.sh
 # Approve this node. Just only exec once.
 kubectl get csr
 # NAME                                                   AGE       REQUESTOR           CONDITION

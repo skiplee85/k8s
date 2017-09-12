@@ -26,6 +26,9 @@ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kube
   -hostname="$SERVERS,127.0.0.1,10.254.0.1,kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.default.svc.cluster.local" \
   kubernetes-csr.json | cfssljson -bare kubernetes
 
+# export p12
+openssl pkcs12 -export -in admin.pem  -out admin.p12 -inkey admin-key.pem -password pass:$P12_PASSWORD
+
 # copy setting to master
 cp *.pem ../master/ssl
 

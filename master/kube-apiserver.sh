@@ -1,7 +1,7 @@
 #!/bin/sh
 kube-apiserver \
   --advertise-address=$INTERNAL_IP \
-  --insecure-bind-address=$INTERNAL_IP \
+  --insecure-bind-address=127.0.0.1 \
   --etcd-servers=$ETCD_SERVERS \
   --allow-privileged=true \
   --service-cluster-ip-range=10.254.0.0/16 \
@@ -24,5 +24,5 @@ kube-apiserver \
   --audit-log-maxage=30 \
   --audit-log-maxbackup=3 \
   --audit-log-maxsize=100 \
-  --audit-log-path=$KUBE_PATH/log/audit.log \
+  --audit-log-path=$DATA_PATH/log/audit.log \
   --event-ttl=1h

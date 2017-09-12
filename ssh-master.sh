@@ -18,12 +18,13 @@ env_replace() {
   \&\& sed -i "s/\\\$HA_PROXY_IP/$HA_PROXY_IP/g" $file_path \
   \&\& sed -i "s/\\\$DNS_SERVER_IP/$DNS_SERVER_IP/g" $file_path \
   \&\& sed -i "s/\\\$DNS_DOMAIN/$DNS_DOMAIN/g" $file_path \
+  \&\& sed -i "s/\\\$DATA_PATH/${DATA_PATH//\//\\\\\/}/g" $file_path \
   \&\& sed -i "s/\\\$ETCD_SERVERS/${ETCD_SERVERS//\//\\\\\/}/g" $file_path \
   \&\& sed -i "s/\\\$CLUSTER_LIST/${CLUSTER_LIST//\//\\\\\/}/g" $file_path
 }
 
 # ~/.kube/config
-ssh root@$INTERNAL_IP mkdir -p $KUBE_PATH/log
+ssh root@$INTERNAL_IP mkdir -p $KUBE_PATH $DATA_PATH/log
 scp -r $BASE_PATH/master/* root@$INTERNAL_IP:$KUBE_PATH/
 
 #kubectl config

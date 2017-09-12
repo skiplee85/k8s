@@ -24,7 +24,7 @@ OPTIONS:
 masters_publish() {
   for server in ${MASTERS[@]}  
   do
-    echo $server
+    echo "Publish master setting to $server ..."
     name=`echo $server | cut -d : -f 1`
     ip=`echo $server | cut -d : -f 2`
     $BASE_PATH/ssh-master.sh $name $ip
@@ -34,7 +34,7 @@ masters_publish() {
 nodes_publish() {
   for node in ${NODES[@]}  
   do
-    echo $node
+    echo "Publish node setting to $node ..."
     $BASE_PATH/ssh-node.sh $node
   done
 }

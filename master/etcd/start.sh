@@ -1,8 +1,8 @@
 #!/bin/sh
 etcd \
 --name $ETCD_NAME \
---data-dir $KUBE_PATH/etcd/data \
---wal-dir $KUBE_PATH/etcd/wal \
+--data-dir $DATA_PATH/etcd/data \
+--wal-dir $DATA_PATH/etcd/wal \
 --snapshot-count 10000 \
 --heartbeat-interval 100 \
 --election-timeout 1000 \

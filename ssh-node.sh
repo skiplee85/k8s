@@ -16,11 +16,12 @@ env_replace() {
   \&\& sed -i "s/\\\$HA_PROXY_IP/$HA_PROXY_IP/g" $file_path \
   \&\& sed -i "s/\\\$DNS_SERVER_IP/$DNS_SERVER_IP/g" $file_path \
   \&\& sed -i "s/\\\$DNS_DOMAIN/$DNS_DOMAIN/g" $file_path \
+  \&\& sed -i "s/\\\$DATA_PATH/${DATA_PATH//\//\\\\\/}/g" $file_path \
   \&\& sed -i "s/\\\$ETCD_SERVERS/${ETCD_SERVERS//\//\\\\\/}/g" $file_path
 }
 
 # ~/.kube/config
-ssh root@$INTERNAL_IP mkdir -p $KUBE_PATH/log
+ssh root@$INTERNAL_IP mkdir -p $KUBE_PATH $DATA_PATH/log
 scp -r $BASE_PATH/node/* root@$INTERNAL_IP:$KUBE_PATH/
 
 #kubectl config
@@ -30,9 +31,8 @@ ssh root@$INTERNAL_IP mv $KUBE_PATH/config /root/.kube/
 #flannel config
 env_replace $KUBE_PATH/flannel/start.sh
 
-#docker config
-env_replace $KUBE_PATH/docker/start.sh
-env_replace $KUBE_PATH/docker/build-conf.sh
+#init-node config
+env_replace $KUBE_PATH/init-node.sh
 
 #kubelet config
 env_replace $KUBE_PATH/kubelet.sh
