@@ -34,6 +34,9 @@ ssh root@$INTERNAL_IP mv $KUBE_PATH/config /root/.kube/
 #etcd config
 env_replace $KUBE_PATH/etcd/start.sh
 
+#flannel config
+env_replace $KUBE_PATH/flannel/start.sh
+
 #init-master.sh
 env_replace $KUBE_PATH/init-master.sh
 
@@ -48,6 +51,7 @@ env_replace $KUBE_PATH/kube-scheduler.sh
 
 #supervisor config
 env_replace $KUBE_PATH/supervisord.d/kube-server.conf
+env_replace $KUBE_PATH/supervisord.d/flannel.conf
 
 #addons config
 env_replace $KUBE_PATH/addons/dns/kubedns-controller.yaml

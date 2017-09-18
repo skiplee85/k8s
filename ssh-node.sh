@@ -42,3 +42,4 @@ env_replace $KUBE_PATH/kube-proxy.sh
 
 #supervisor config
 env_replace $KUBE_PATH/supervisord.d/kube-node.conf
+env_replace $KUBE_PATH/supervisord.d/flannel.conf
