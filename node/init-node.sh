@@ -6,7 +6,7 @@ if [ -f "$flannel_env" ]; then
   . $flannel_env
 fi
 
-echo "{\"registry-mirrors\":[\"https:\/\/7kwfkwia.mirror.aliyuncs.com\"], \"ip-forward\":false" > $docker_conf
+echo "{\"registry-mirrors\":[\"https:\/\/7kwfkwia.mirror.aliyuncs.com\"]" > $docker_conf
 
 if [ -n "$FLANNEL_SUBNET" ]; then
   echo ",\"bip\":\"$FLANNEL_SUBNET\"" >> $docker_conf

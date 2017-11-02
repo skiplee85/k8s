@@ -36,6 +36,7 @@ Download require software and link to bin path.
 #### Master
 
 - etcd
+- flannel
 - kube-apiserver
 - kube-controller-manager
 - kube-scheduler
@@ -49,9 +50,9 @@ Download require software and link to bin path.
 
 ```sh
 # master
-# etcd
 ln -s /opt/etcd-v3.2.2-linux-amd64/etcd /usr/local/bin/
 ln -s /opt/etcd-v3.2.2-linux-amd64/etcdctl /usr/local/bin/
+ln -s /opt/flanneld /usr/local/bin/
 ln -s /opt/kubernetes/server/bin/kube-apiserver /usr/local/bin/
 ln -s /opt/kubernetes/server/bin/kube-controller-manager /usr/local/bin/
 ln -s /opt/kubernetes/server/bin/kube-scheduler /usr/local/bin/
@@ -79,6 +80,9 @@ Publish setting. (The masters & nodes need to set SSH first.)
 ```sh
 # etcd
 /etc/kubernetes/etcd/start.sh
+
+# flannel
+/etc/kubernetes/flannel/start.sh
 
 # apiserver
 /etc/kubernetes/etcd/kube-apiserver.sh
@@ -123,11 +127,13 @@ supervisorctl update
 
 # master
 supervisorctl start kube_server:*
+supervisorctl start flannel
 # init-setting. Just only exec once.
 /etc/kubernetes/init-master.sh
 
 # node
 supervisorctl start kube_node:*
+supervisorctl start flannel
 # init-setting. Just only exec once.
 /etc/kubernetes/init-node.sh
 # Approve this node. Just only exec once.
