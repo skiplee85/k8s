@@ -13,21 +13,21 @@ cd $BASE_PATH/ssl
 if [ ! -f "ca.pem" ]; then
   # ca.csr ca.pem ca-key.pem
   cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+
+  # admin.csr admin-key.pem admin.pem
+  cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes admin-csr.json | cfssljson -bare admin
+
+  # kube-proxy.csr kube-proxy-key.pem kube-proxy.pem
+  cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes  kube-proxy-csr.json | cfssljson -bare kube-proxy
+
+  # export p12
+  openssl pkcs12 -export -in admin.pem  -out admin.p12 -inkey admin-key.pem -password pass:$P12_PASSWORD
 fi
-
-# admin.csr admin-key.pem admin.pem
-cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes admin-csr.json | cfssljson -bare admin
-
-# kube-proxy.csr kube-proxy-key.pem kube-proxy.pem
-cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes  kube-proxy-csr.json | cfssljson -bare kube-proxy
 
 # kubernetes.csr kubernetes-key.pem kubernetes.pem
 cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes \
   -hostname="$SERVERS,127.0.0.1,10.254.0.1,kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.default.svc.cluster.local" \
   kubernetes-csr.json | cfssljson -bare kubernetes
-
-# export p12
-openssl pkcs12 -export -in admin.pem  -out admin.p12 -inkey admin-key.pem -password pass:$P12_PASSWORD
 
 # copy setting to master
 cp *.pem ../master/ssl
