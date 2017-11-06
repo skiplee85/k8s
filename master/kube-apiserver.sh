@@ -6,10 +6,10 @@ kube-apiserver \
   --allow-privileged=true \
   --service-cluster-ip-range=10.254.0.0/16 \
   --admission-control=ServiceAccount,NamespaceLifecycle,NamespaceExists,LimitRanger,ResourceQuota \
-  --authorization-mode=RBAC \
+  --authorization-mode=Node,RBAC \
   --runtime-config=rbac.authorization.k8s.io/v1beta1 \
   --kubelet-https=true \
-  --experimental-bootstrap-token-auth \
+  --enable-bootstrap-token-auth \
   --token-auth-file=$KUBE_PATH/token.csv \
   --service-node-port-range=30000-32767 \
   --tls-cert-file=$KUBE_PATH/ssl/kubernetes.pem \

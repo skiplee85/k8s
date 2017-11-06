@@ -7,7 +7,7 @@ kubelet \
   --cluster-dns=$DNS_SERVER_IP \
   --bootstrap-kubeconfig=$KUBE_PATH/bootstrap.kubeconfig \
   --kubeconfig=$KUBE_PATH/kubelet.kubeconfig \
-  --require-kubeconfig=true \
   --cert-dir=$KUBE_PATH/ssl \
   --cluster-domain=$DNS_DOMAIN \
-  --serialize-image-pulls=false
+  --serialize-image-pulls=false \
+  --fail-swap-on=false

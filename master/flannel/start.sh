@@ -4,4 +4,6 @@ flanneld \
   -etcd-cafile=$KUBE_PATH/ssl/ca.pem \
   -etcd-certfile=$KUBE_PATH/ssl/kubernetes.pem \
   -etcd-keyfile=$KUBE_PATH/ssl/kubernetes-key.pem \
+  -kube-subnet-mgr \
+  -ip-masq \
   -subnet-file=$KUBE_PATH/flannel/subnet.env
