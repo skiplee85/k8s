@@ -54,5 +54,4 @@ env_replace $KUBE_PATH/supervisord.d/kube-server.conf
 env_replace $KUBE_PATH/supervisord.d/flannel.conf
 
 #addons config
-env_replace $KUBE_PATH/addons/dns/kubedns-controller.yaml
-env_replace $KUBE_PATH/addons/dns/kubedns-svc.yaml
+env_replace $KUBE_PATH/addons/dns/kube-dns.yaml
